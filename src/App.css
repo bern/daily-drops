@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+
+.container {
+  height: 100vh;
+  background-color: black;
+  color: white;
+  font-family: 'Special Elite', cursive;
+  padding-top: 64px;
+  text-align: center;
+}

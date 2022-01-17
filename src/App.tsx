@@ -1,10 +1,41 @@
 import React, { useEffect } from 'react';
 import { CanvasContainer } from './components/CanvasContainer';
+import { getWeapon } from './components/drops';
 import ReactDOM from "react-dom";
 import * as THREE from "three";
-import { Fire } from './Fire';
+import Fingerprint from '@fingerprintjs/fingerprintjs';
+import './App.css';
 
-const App = () => {
+export const App = () => {
+  const weapon = getWeapon();
+
+  const fingerprintAgent = Fingerprint.load()
+    .then((agent) => agent.get())
+    .then((result) => 
+      {console.log('fingerprint: ', result.visitorId)}
+    );
+
+  return (
+    <div className="container">
+      <div>
+        You enter a dark and empty room. As you stare through the blackness, an item resting against the corner catches your eye.
+      </div>
+      <div style={{ paddingTop: '8px' }}>
+        You approach it, and pick up
+      </div>
+      <div style={{ paddingTop: '16px' }}>
+        <h2>{weapon}</h2>
+      </div>
+      <div style={{ paddingTop: '16px' }}>
+        A whisper in the darkness tells you to come back tomorrow for a chance at even greater riches.
+      </div>
+    </div>
+  )
+}
+
+export default App;
+
+/*const App = () => {
   useEffect(() => {
     var scene = new THREE.Scene();
 
@@ -29,36 +60,33 @@ const App = () => {
 
     const torchGeometry = new THREE.BoxGeometry(.5, 7, .5, 1, 1, 1);
     const woodTexture = new THREE.TextureLoader().load( 'wood.jpeg' );
-    const torchMaterial = new THREE.MeshBasicMaterial({ map: woodTexture })
+    const torchMaterial = new THREE.MeshBasicMaterial()//{ map: woodTexture })
+    torchMaterial.color = new THREE.Color(0x808080);
     const torchMesh = new THREE.Mesh( torchGeometry, torchMaterial );
     const torchMesh2 = new THREE.Mesh( torchGeometry, torchMaterial );
 
-    /***** *********/
-    // var textureLoader = new THREE.TextureLoader();
-    // var tex = textureLoader.load("firetex.png");
-    // var fire = new Fire( tex, new THREE.Color(0x9900cc) );
+    const fireGeometry = new THREE.BoxGeometry(.7, .7, .7, 1, 1, 1);
+    const fireMaterial = new THREE.MeshBasicMaterial();
+    fireMaterial.color = new THREE.Color(0xff0000);
+    const fireMesh = new THREE.Mesh( fireGeometry, fireMaterial );
+    const fireMesh2 = new THREE.Mesh( fireGeometry, fireMaterial );
 
-    // scene.add( fire.FireMesh );
-
-    // function animate() {
-    //   requestAnimationFrame( animate );
-
-    //   fire.update(performance.now() / 1000);
-    //   renderer.render( scene, camera );
-    // }
-    // animate();
-
-    //************ */
+    const torchLight = new THREE.PointLight(0xff0000, 5, 5);
+    //const torchLight = new THREE.AmbientLight( 0xff0000 );
 
     dungeon.add(cube);
     dungeon.add(torchMesh);
     dungeon.add(torchMesh2);
+    dungeon.add(fireMesh);
+    dungeon.add(fireMesh2);
+    // dungeon.add(torchLight);
     // dungeon.add(fire.FireMesh);
 
     // scene.add( cube );
     // scene.add( torchMesh );
 
     scene.add(dungeon);
+    scene.add(torchLight);
 
     torchMesh.position.x = 4;
     torchMesh.position.y = 10;
@@ -70,13 +98,25 @@ const App = () => {
     // torchMesh.position.z = 0;
     torchMesh2.rotation.x = 80;
 
+    fireMesh.position.x = 3.9;
+    fireMesh.position.y = 10.2;
+    fireMesh.position.z = 4;
+
+    torchLight.position.x = 2;
+    torchLight.position.y = 2;
+    torchLight.position.z = 2;
+
+    fireMesh2.position.x = -3.9;
+    fireMesh2.position.y = 10.2;
+    fireMesh2.position.z = 4;
+
     console.log({
       floorPos: cube.position,
       torchPos: torchMesh.position
     });
 
     camera.position.z = 8;
-    camera.rotation.x = 45;
+    camera.rotation.x = 20;
 
     var animate = function () {
       requestAnimationFrame( animate );
@@ -89,9 +129,7 @@ const App = () => {
   return (
     <div />
   );
-}
+}*/
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(<App />, rootElement);
-
-export default App;
