@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getWeapon } from './components/drops';
+import { getWeapon } from './drops';
 import './App.css';
 
 // checks if date1 is before date2 in terms of day, month, and year
