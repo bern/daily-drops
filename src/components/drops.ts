@@ -71,14 +71,10 @@ export const getRandomValueWithProbability = (probabilityMap: IIndexable) => {
   let probabilityArray: string[] = [];
   for (const value of Object.keys(probabilityMap)) {
     const times = probabilityMap[value] * 10000;
-    console.log(`adding ${value} ${times} times`)
-
     const valueArr = Array(times).fill(value);
 
     probabilityArray = [...probabilityArray, ...valueArr]
   }
-
-  console.log(`added ${probabilityArray.length} values`)
 
   return probabilityArray[Math.floor(rand * 10000)];
 }
