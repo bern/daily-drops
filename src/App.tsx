@@ -1,64 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { getWeapon } from './drops';
+import { getWeapon } from './utils/drops';
+import { breakoutDate, dateIsBeforeOtherDate } from './utils/date';
 import './App.css';
-
-// checks if date1 is before date2 in terms of day, month, and year
-const dateIsBeforeOtherDate = ({date1, date2}: {date1: {
-  day: number,
-  month: number,
-  year: number
-}; date2: {
-  day: number,
-  month: number,
-  year: number
-}}) => {
-  if (date1.year < date2.year) {
-    return true;
-  }
-
-  if (date1.year === date2.year && date1.month < date2.month) {
-    return true;
-  }
-
-  if (date1.year === date2.year && date1.month === date2.month && date1.day < date2.day) {
-    return true;
-  }
-
-  return false;
-}
 
 function App() {
   const [weapon, setWeapon] = useState('');
-  // let weapon: string | undefined;
   const now = new Date();
 
   useEffect(() => {
-    console.log('a')
     if (window.localStorage.getItem('last-drop-timestamp')) {
-      console.log('b')
-      const lastDropTimestamp = new Date(window.localStorage.getItem('last-drop-timestamp')!);
-      const year = lastDropTimestamp.getFullYear();
-      const month = lastDropTimestamp.getMonth();
-      const day = lastDropTimestamp.getDate();
+      const lastDropTimestamp = new Date(
+        window.localStorage.getItem('last-drop-timestamp')!
+      );
+      const lastDate = breakoutDate(lastDropTimestamp);
   
       if (dateIsBeforeOtherDate({
-        date1: {
-          year,
-          month,
-          day
-        },
-        date2: {
-          year: now.getFullYear(),
-          month: now.getMonth(),
-          day: now.getDate()
-        }
-      }) || Math.abs(lastDropTimestamp.getTime() - now.getTime()) < 100 ) {
-        console.log('c')
+        date1: {...lastDate},
+        date2: {...breakoutDate(now)}
+      })) {
         setWeapon(getWeapon());
         window.localStorage.setItem('last-drop-timestamp', `${now}`);  
       }
     } else {
-      console.log('d')
       setWeapon(getWeapon());
       window.localStorage.setItem('last-drop-timestamp', `${now}`); 
     }
@@ -75,10 +38,7 @@ function App() {
     </>
   );
 
-  console.log(weapon)
-
   if (weapon) {
-    console.log('got content')
     content = (
       <>
         <div>
