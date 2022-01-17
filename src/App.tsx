@@ -16,18 +16,20 @@ export const App = () => {
     );
 
   return (
-    <div className="container">
-      <div>
-        You enter a dark and empty room. As you stare through the blackness, an item resting against the corner catches your eye.
-      </div>
-      <div style={{ paddingTop: '8px' }}>
-        You approach it, and pick up
-      </div>
-      <div style={{ paddingTop: '16px' }}>
-        <h2>{weapon}</h2>
-      </div>
-      <div style={{ paddingTop: '16px' }}>
-        A whisper in the darkness tells you to come back tomorrow for a chance at even greater riches.
+    <div className="bg" style={{ height: '100vh', width: '100vw' }}>
+      <div className="container">
+        <div>
+          You enter a dark and empty room. As you stare through the blackness, an item resting against the corner catches your eye.
+        </div>
+        <div style={{ paddingTop: '8px' }}>
+          You approach it, and pick up
+        </div>
+        <div style={{ paddingTop: '16px' }}>
+          <h2>{weapon}</h2>
+        </div>
+        <div style={{ paddingTop: '16px' }}>
+          A whisper in the darkness tells you to come back tomorrow for a chance at even greater riches.
+        </div>
       </div>
     </div>
   )
