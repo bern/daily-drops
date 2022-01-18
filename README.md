@@ -8,12 +8,12 @@ Every adventurer needs tools to protect them against the dangers of this world. 
 
 The rarity of a weapon is governed by a percentage chance as follows:
 
-Lesser: 20%,
-Normal: 62.49%
-Greater: 16%
-Epic: 1%
-Legendary: 0.5%
-Godly: 0.01%
+- Lesser: 20%,
+- Normal: 62.49%
+- Greater: 16%
+- Epic: 1%
+- Legendary: 0.5%
+- Godly: 0.01%
 
 This project currently lives as a piece of interactive art in a good friend's apartment. Enjoy, and good luck!
 
