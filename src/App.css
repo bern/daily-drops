@@ -9,7 +9,7 @@ body {
   height: 100%;
   color: white;
   font-family: 'Special Elite', cursive;
-  padding-top: 64px;
+  padding-top: 96px;
   text-align: center;
   margin: auto;
   max-width: 70%;
@@ -22,5 +22,43 @@ body {
   }
   to {
     opacity: 1;
+  }
+}
+
+.inventoryButton {
+  height: 44px;
+  width: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(189,189,189,1) 58%, rgba(0,0,0,1) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bar {
+  width: 100%;
+  height: 32px;
+  padding-top: 16px;
+  justify-content: center;
+  display: flex;
+}
+
+.inventoryContainer {
+  border: 1px white solid;
+  width: 60%;
+  margin: auto;
+  padding: 0 16px;
+  animation: grow 0.2s ease-out;
+  height: 240px;
+  color: white;
+  overflow-y: scroll;
+}
+
+@keyframes grow {
+  from {
+    height: 0;
+  }
+  to {
+    height: 240px;
   }
 }

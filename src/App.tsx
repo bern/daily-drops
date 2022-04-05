@@ -2,29 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { getWeapon } from './utils/drops';
 import { breakoutDate, dateIsBeforeOtherDate } from './utils/date';
 import './App.css';
+import sack from './sack.png';
+import { Inventory } from './Inventory';
 
 function App() {
   const [weapon, setWeapon] = useState('');
+  const [showInventory, setShowInventory] = useState(false);
   const now = new Date();
 
   useEffect(() => {
-    if (window.localStorage.getItem('last-drop-timestamp')) {
-      const lastDropTimestamp = new Date(
-        window.localStorage.getItem('last-drop-timestamp')!
-      );
-      const lastDate = breakoutDate(lastDropTimestamp);
-  
-      if (dateIsBeforeOtherDate({
-        date1: {...lastDate},
-        date2: {...breakoutDate(now)}
-      })) {
-        setWeapon(getWeapon());
-        window.localStorage.setItem('last-drop-timestamp', `${now}`);  
-      }
-    } else {
-      setWeapon(getWeapon());
-      window.localStorage.setItem('last-drop-timestamp', `${now}`); 
-    }
+    const generatedWeapon = getWeapon();
+
+
+        setWeapon(generatedWeapon);
+        window.localStorage.setItem('last-drop-timestamp', `${now}`);
+
+        const inventory = window.localStorage.getItem('daily-drops-inventory');
+        window.localStorage.setItem('daily-drops-inventory', inventory ? `${inventory}${generatedWeapon.trim()};` : `${generatedWeapon.trim()};`);
+      
   }, [])
 
   let content: JSX.Element = (
@@ -59,6 +54,18 @@ function App() {
 
   return (
     <div style={{ height: '100%', width: '100%' }}>
+      <div className="bar">
+        <div className="inventoryButton"
+          onClick={() => {
+            setShowInventory(!showInventory);
+          }}
+        >
+          <img src={sack} height='32' width='32'/>
+        </div>
+      </div>
+      <div>
+        {showInventory && <Inventory/>}
+      </div>
       <div className="container">
         {content}
       </div>
