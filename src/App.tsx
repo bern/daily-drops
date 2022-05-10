@@ -2,12 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { getWeapon } from './utils/drops';
 import { breakoutDate, dateIsBeforeOtherDate } from './utils/date';
 import './App.css';
+import sack from './sack.png';
+import { Inventory } from './Inventory';
 
 function App() {
   const [weapon, setWeapon] = useState('');
+  const [showInventory, setShowInventory] = useState(false);
   const now = new Date();
 
   useEffect(() => {
+    const getNewWeapon = () => {
+      const generatedWeapon = getWeapon();
+
+      setWeapon(generatedWeapon);
+      window.localStorage.setItem('last-drop-timestamp', `${now}`);
+
+      const inventory = window.localStorage.getItem('daily-drops-inventory');
+      const weaponEntry = `${generatedWeapon.trim()}+${now.getTime()}`;
+      window.localStorage.setItem('daily-drops-inventory', inventory ? `${weaponEntry};${inventory}` : `${weaponEntry}`);
+    }
+
     if (window.localStorage.getItem('last-drop-timestamp')) {
       const lastDropTimestamp = new Date(
         window.localStorage.getItem('last-drop-timestamp')!
@@ -18,13 +32,11 @@ function App() {
         date1: {...lastDate},
         date2: {...breakoutDate(now)}
       })) {
-        setWeapon(getWeapon());
-        window.localStorage.setItem('last-drop-timestamp', `${now}`);  
+        getNewWeapon();
       }
     } else {
-      setWeapon(getWeapon());
-      window.localStorage.setItem('last-drop-timestamp', `${now}`); 
-    }
+      getNewWeapon();
+    } 
   }, [])
 
   let content: JSX.Element = (
@@ -59,8 +71,22 @@ function App() {
 
   return (
     <div style={{ height: '100%', width: '100%' }}>
+      <div>
+        {showInventory && <Inventory onClose={() => {
+          setShowInventory(false);
+        }}/>}
+      </div>
       <div className="container">
         {content}
+      </div>
+      <div className="bar">
+        <div className="inventoryButton"
+          onClick={() => {
+            setShowInventory(!showInventory);
+          }}
+        >
+          Show Inventory
+        </div>
       </div>
     </div>
   );
