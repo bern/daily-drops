@@ -26,13 +26,46 @@ body {
 }
 
 .inventoryButton {
-  height: 44px;
-  width: 44px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(189,189,189,1) 58%, rgba(0,0,0,1) 100%);
+  font-weight: 600;
+  font-family: 'Special Elite', cursive;
+  margin-top: 16px;
+  border-radius: 8px;
+  border: white solid 2px;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 22px 24px;
+  cursor: pointer;
+}
+
+.inventoryButton:hover{
+  margin-top: 16px;
+  border-radius: 8px;
+  border: white solid 2px;
+  background-color: #111;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px 24px;
+  cursor: pointer;
+  transition: all 0.2s;
+  transform: scale(1.05);
+}
+
+.inventoryButton:active{
+  margin-top: 16px;
+  border-radius: 8px;
+  border: white solid 2px;
+  background-color: #111;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px 24px;
+  cursor: pointer;
+  transform: scale(0.95);
 }
 
 .bar {
@@ -44,13 +77,14 @@ body {
 }
 
 .inventoryContainer {
-  border: 1px white solid;
-  width: 60%;
+  font-family: 'Special Elite', cursive;
+  width: 80%;
   margin: auto;
   padding: 0 16px;
   animation: grow 0.2s ease-out;
-  height: 240px;
-  color: white;
+  max-height: 320px;
+  color: black;
+  font-size: 0.8em;
   overflow-y: scroll;
 }
 
@@ -61,4 +95,52 @@ body {
   to {
     height: 240px;
   }
+}
+
+.inventoryModal__container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -100%);
+  font-size: 1.5rem;
+  padding: 0 8px;
+  border: 1px solid #777;
+  border-radius: 8px;
+  box-shadow: 0px 4px 5px 2px rgba(0,0,0,0.4);
+  width: 80%;
+  outline: none;
+  background-color: #e9e7e7;
+}
+
+.inventoryModal__closeButton {
+  border-radius: 8px;
+  padding: 0px 4px 2px 4px;
+  width: 20px;
+  height: 26px;
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.inventoryModal__closeButton:hover {
+  border-radius: 8px;
+  background-color: rgba(0,0,0,0.1);
+  transition: all 0.2s;
+}
+
+.ReactModal__Overlay {
+  background-color: rgba(50,50,50,0.5) !important;
+}
+
+.inventory__itemFoundDate {
+  margin-top: 4px;
+  font-size: 0.75em;
+  opacity: 0.7;
 }

@@ -1,13 +1,18 @@
-export const Inventory = () => {
+import ReactModal from 'react-modal';
+
+interface IntentoryProps {
+    onClose?: () => void;
+}
+
+export const Inventory = (props: IntentoryProps) => {
+    const { onClose } = props;
     const inventory = window.localStorage.getItem('daily-drops-inventory');
 
     let itemized: string[] = [];
-    console.log('eyo')
     itemized = inventory?.split(';') || [];
     console.log(itemized)
     const rarityCount = [0, 0, 0, 0, 0, 0];
     for (let i = 0; i < itemized.length; i++) {
-        console.log('eyo')
         const rarityWord = (itemized[i]).split(' ')[0];
         switch (rarityWord) {
             case 'lesser':
@@ -32,15 +37,42 @@ export const Inventory = () => {
     }
 
     return (
-        <div className="inventoryContainer">
-            <p>{`total:${itemized.length} epic:${rarityCount[3]} legendary:${rarityCount[4]} godly:${rarityCount[5]}`}</p>
-            {itemized.map((item: string) => {
-                return (
-                    <div>
-                        {item}
-                    </div>
-                );
-            })}
-        </div>
+        <ReactModal
+            isOpen={true}
+            className="inventoryModal__container"
+            appElement={document.getElementById('root') || undefined}
+        >
+            <div
+                id="modal-close" 
+                className="inventoryModal__closeButton"
+                onClick={() => { if (onClose) { onClose(); }}}
+            >
+                x
+            </div>
+            <div className="inventoryContainer">
+                <div style={{ marginTop: '16px' }}>
+                    <div>{`Treasures Found: ${itemized.length}`}</div>
+                    <div>{`Epic: ${rarityCount[3]}`}</div>
+                    <div>{`Legendary: ${rarityCount[4]}`}</div>
+                    <div>{`Godly: ${rarityCount[5]}`}</div>
+                </div>
+                <div style={{ marginTop: '32px' }}>
+                    {itemized.map((item: string) => {
+                        console.log(item.split('+')[1]);
+                        console.log(new Date(parseInt((item.split('+')[1]))))
+                        const itemName = item.split('+')[0];
+                        const dateFound = new Date(parseInt(item.split('+')[1]));
+
+                        return (
+                            <div>
+                                <div>{itemName}</div>
+                                <div className="inventory__itemFoundDate">{`found ${dateFound.getMonth() + 1}-${dateFound.getDate()}-${dateFound.getFullYear()}`}</div>
+                                <hr/>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        </ReactModal>
     );
 }

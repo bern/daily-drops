@@ -11,15 +11,32 @@ function App() {
   const now = new Date();
 
   useEffect(() => {
-    const generatedWeapon = getWeapon();
+    const getNewWeapon = () => {
+      const generatedWeapon = getWeapon();
 
+      setWeapon(generatedWeapon);
+      window.localStorage.setItem('last-drop-timestamp', `${now}`);
 
-        setWeapon(generatedWeapon);
-        window.localStorage.setItem('last-drop-timestamp', `${now}`);
+      const inventory = window.localStorage.getItem('daily-drops-inventory');
+      const weaponEntry = `${generatedWeapon.trim()}+${now.getTime()}`;
+      window.localStorage.setItem('daily-drops-inventory', inventory ? `${weaponEntry};${inventory}` : `${weaponEntry}`);
+    }
 
-        const inventory = window.localStorage.getItem('daily-drops-inventory');
-        window.localStorage.setItem('daily-drops-inventory', inventory ? `${inventory}${generatedWeapon.trim()};` : `${generatedWeapon.trim()};`);
-      
+    if (window.localStorage.getItem('last-drop-timestamp')) {
+      const lastDropTimestamp = new Date(
+        window.localStorage.getItem('last-drop-timestamp')!
+      );
+      const lastDate = breakoutDate(lastDropTimestamp);
+  
+      if (dateIsBeforeOtherDate({
+        date1: {...lastDate},
+        date2: {...breakoutDate(now)}
+      })) {
+        getNewWeapon();
+      }
+    } else {
+      getNewWeapon();
+    } 
   }, [])
 
   let content: JSX.Element = (
@@ -54,20 +71,22 @@ function App() {
 
   return (
     <div style={{ height: '100%', width: '100%' }}>
+      <div>
+        {showInventory && <Inventory onClose={() => {
+          setShowInventory(false);
+        }}/>}
+      </div>
+      <div className="container">
+        {content}
+      </div>
       <div className="bar">
         <div className="inventoryButton"
           onClick={() => {
             setShowInventory(!showInventory);
           }}
         >
-          <img src={sack} height='32' width='32'/>
+          Show Inventory
         </div>
-      </div>
-      <div>
-        {showInventory && <Inventory/>}
-      </div>
-      <div className="container">
-        {content}
       </div>
     </div>
   );
